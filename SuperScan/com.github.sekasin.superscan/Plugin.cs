@@ -5,7 +5,7 @@ namespace SuperScan.com.github.sekasin.superscan {
     public class SuperScan : Plugin<Config> {
         public override string Name => "SuperScan";
         public override string Author => "TenDRILLL";
-        public override Version Version => new Version(1, 0, 0);
+        public override Version Version => new Version(1, 1, 1);
         public EventHandler EventHandler;
 
         public override void OnEnabled() {

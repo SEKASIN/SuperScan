@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Exiled.API.Enums;
 using Exiled.API.Features;
@@ -40,33 +41,39 @@ namespace SuperScan.com.github.sekasin.superscan
         }
 
         private void Scan() {
-            Cassie.Clear();
-            Cassie.Message(prescan, true, false, true);
             int[] roles = { 0, 0, 0, 0, 0, 0 };
             //SCP, Scientist, FacilityGuard, NTF, ClassD, Chaos
-            foreach (Player player in Player.List) {
-                if (player.IsAlive && !player.IsNPC) {
-                    switch (player.Role.Side) {
-                        case Side.Scp:
-                            roles[0]++;
-                            break;
-                        case Side.Mtf:
-                            if (player.Role.Type == RoleTypeId.Scientist) {
-                                roles[1]++;
-                            } else if (player.Role.Type == RoleTypeId.FacilityGuard) {
-                                roles[2]++;
-                            } else {
-                                roles[3]++;
-                            }
-                            break;
-                        case Side.ChaosInsurgency:
-                            if (player.Role.Type == RoleTypeId.ClassD) {
-                                roles[4]++;
-                            } else {
-                                roles[5]++;
-                            }
-                            break;
-                    }
+            List<Player> alivePlayers = new List<Player>();
+            foreach (Player player in Player.List) { if (player.IsAlive && !player.IsNPC) alivePlayers.Append(player); }
+            if (alivePlayers.Count == 0) {
+                Timing.KillCoroutines(timer);
+                Timing.KillCoroutines(timer2);
+                StartScanTimer();
+                return;
+            }
+            Cassie.Clear();
+            Cassie.Message(prescan, true, false, true);
+            foreach (Player player in alivePlayers) {
+                switch (player.Role.Side) {
+                    case Side.Scp:
+                        roles[0]++;
+                        break;
+                    case Side.Mtf:
+                        if (player.Role.Type == RoleTypeId.Scientist) {
+                            roles[1]++;
+                        } else if (player.Role.Type == RoleTypeId.FacilityGuard) {
+                            roles[2]++;
+                        } else {
+                            roles[3]++;
+                        }
+                        break;
+                    case Side.ChaosInsurgency:
+                        if (player.Role.Type == RoleTypeId.ClassD) {
+                            roles[4]++;
+                        } else {
+                            roles[5]++;
+                        }
+                        break;
                 }
             }
 
