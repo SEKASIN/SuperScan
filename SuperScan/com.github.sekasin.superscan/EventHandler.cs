@@ -41,11 +41,19 @@ namespace SuperScan.com.github.sekasin.superscan
         }
 
         private void Scan() {
+            if (_debugMode)
+            {
+                Log.Info("Scan");
+            }
             int[] roles = { 0, 0, 0, 0, 0, 0 };
             //SCP, Scientist, FacilityGuard, NTF, ClassD, Chaos
             List<Player> alivePlayers = new List<Player>();
             foreach (Player player in Player.List) { if (player.IsAlive && !player.IsNPC) alivePlayers.Append(player); }
             if (alivePlayers.Count == 0) {
+                if (_debugMode)
+                {
+                    Log.Info("No players alive. Stopping.");
+                }
                 Timing.KillCoroutines(timer);
                 Timing.KillCoroutines(timer2);
                 StartScanTimer();
@@ -53,6 +61,10 @@ namespace SuperScan.com.github.sekasin.superscan
             }
             Cassie.Clear();
             Cassie.Message(prescan, true, false, true);
+            if (_debugMode)
+            {
+                Log.Info("Announcing prescan.");
+            }
             foreach (Player player in alivePlayers) {
                 switch (player.Role.Side) {
                     case Side.Scp:
@@ -78,6 +90,10 @@ namespace SuperScan.com.github.sekasin.superscan
             }
 
             timer2 = Timing.CallDelayed(scanDuration, () => {
+                if (_debugMode)
+                {
+                    Log.Info("Announcing scan results.");
+                }
                 //SCP, Scientist, FacilityGuard, NTF, ClassD, Chaos
                 Cassie.Message(
                     result
@@ -99,6 +115,10 @@ namespace SuperScan.com.github.sekasin.superscan
         }
         
         private void StartScanTimer() {
+            if (_debugMode)
+            {
+                Log.Info("Start SuperScan timer");
+            }
             timer = Timing.CallDelayed(scanInterval, Scan);
         }
 
