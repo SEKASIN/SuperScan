@@ -48,7 +48,14 @@ namespace SuperScan.com.github.sekasin.superscan
             int[] roles = { 0, 0, 0, 0, 0, 0 };
             //SCP, Scientist, FacilityGuard, NTF, ClassD, Chaos
             List<Player> alivePlayers = new List<Player>();
-            foreach (Player player in Player.List) { if (player.IsAlive && !player.IsNPC) alivePlayers.Append(player); }
+            foreach (Player player in Player.List)
+            {
+                if (player.IsAlive && !player.IsNPC)
+                {
+                    Log.Debug(player.Nickname+ " is alive.");
+                    alivePlayers.Add(player);
+                }
+            }
             if (alivePlayers.Count == 0) {
                 if (_debugMode)
                 {
