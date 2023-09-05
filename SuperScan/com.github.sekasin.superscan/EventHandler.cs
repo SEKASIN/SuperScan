@@ -78,16 +78,16 @@ namespace SuperScan.com.github.sekasin.superscan
                         roles[0]++;
                         break;
                     case Side.Mtf:
-                        if (player.Role.Type == RoleTypeId.Scientist) {
+                        if (player.Role == RoleTypeId.Scientist) {
                             roles[1]++;
-                        } else if (player.Role.Type == RoleTypeId.FacilityGuard) {
+                        } else if (player.Role == RoleTypeId.FacilityGuard) { //guard
                             roles[2]++;
                         } else {
                             roles[3]++;
                         }
                         break;
                     case Side.ChaosInsurgency:
-                        if (player.Role.Type == RoleTypeId.ClassD) {
+                        if (player.Role == RoleTypeId.ClassD) { //class-d
                             roles[4]++;
                         } else {
                             roles[5]++;
